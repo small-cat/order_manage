@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>order detail</title>
+
+    <div>
+        <h2>店铺信息</h2>
+        <!-- 店铺ID、店铺名称、联系方式、店铺类型 -->
+        <ul>
+            <li>     店铺ID: {{order_detail.itemCode.shopId.shopId}}</li>
+            <li>   店铺名称: {{order_detail.itemCode.shopId.shopName}}</li>
+            <li>联系方式: {{order_detail.itemCode.shopId.phoneNumber}}</li>
+            <li>   店铺类型: {{order_detail.itemCode.shopId.get_shopType_display}}</li>
+        </ul>
+    </div>
+    <div>
+        <!-- 商品信息 时间、商品名称、商品编码、商品链接、备注、要求 -->
+        <h2>商品信息</h2>
+        <ul>
+            <li>      时间: {{order_detail.itemCode.dateTime}}</li>
+            <li>   商品名称: {{order_detail.itemCode.itemName}}</li>
+            <li>   商品编码: {{order_detail.itemCode.itemCode}}</li>
+            <li>   商品链接: {{order_detail.itemCode.itemLink}}</li>
+            <li>      备注: {{order_detail.itemCode.remark}}</li>
+            <li>       要求: {{order_detail.itemCode.requirements}}</li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- 订单详细信息 时间、关键字、入口、浏览时间、是否假聊、购买件数、单数、价格、佣金、留言、刷手费用、
+        是否完成、是否返款、异常、备注、淘宝用户名 -->
+        <h2>订单详细信息</h2>
+        <ul>
+            <li>时间: {{order_detail.dateTime}}</li>
+            <li>关键字: {{order_detail.keywords}}</li>
+            <li>入口: {{order_detail.enterChannel}}</li>
+            <li>浏览时间: {{order_detail.scanDuration}}</li>
+            <li>是否假聊: {{order_detail.get_talk_display}}</li>
+            <li>购买件数: {{order_detail.shoppingCnt}}</li>
+            <li>单数: {{order_detail.orderCnt}}</li>
+            <li>价格: {{order_detail.price}}</li>
+            <li>佣金: {{order_detail.charges}}</li>
+            <li>留言: {{order_detail.memo}}</li>
+            <li>刷手费用: {{order_detail.salary}}</li>
+            <li>是否完成: {{order_detail.get_finishStatus_display}}</li>
+            <li>是否返款: {{order_detail.get_moneyReturnStatus_display}}</li>
+            <li>异常: {{order_detail.exception}}</li>
+            <li>备注: {{order_detail.remark}}</li>
+            <li>淘宝用户名: {{order_detail.userTaobaoId}}</li>
+        </ul>
+    </div>
+
+</head>
+<body>
+
+</body>
+</html>

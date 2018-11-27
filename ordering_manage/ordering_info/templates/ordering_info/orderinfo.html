@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordering Details</title>
+    <table border="1" cellspacing="0" style="border:none;line-height:29px;height:29px;border-radius:1px;width:100%;">
+        <tr>
+            <!-- 时间、店铺名称、商品名称、购买件数、价格、淘宝用户名、是否完成、是否返款、异常、操作 -->
+            <td align="center">时间</td>
+            <td align="center">店铺名称</td>
+            <td align="center">商品名称</td>
+            <td align="center">购买件数</td>
+            <td align="center">价格</td>
+            <td align="center">淘宝用户名</td>
+            <td align="center">是否完成</td>
+            <td align="center">是否返款</td>
+            <td align="center">异常</td>
+            <td align="center">操作</td>
+        </tr>
+        {% for order_post in order_posts %}
+        <tr>
+            <td align="center">{{order_post.dateTime}}</td>
+            <td align="center">{{order_post.itemCode.shopId.shopName}}</td>
+            <td align="center">{{order_post.itemCode.itemName}}</td>
+            <td align="center">{{order_post.orderCnt}}</td>
+            <td align="center">{{order_post.price }} yuan</td>
+            <td align="center">{{order_post.userTaobaoId}}</td>
+            <td align="center">{{order_post.get_finishStatus_display}}</td>
+            <td align="center">{{order_post.get_moneyReturnStatus_display}}</td>
+            <td align="center">{{order_post.exception}}</td>
+            <td align="center">
+                <button type="submit" name="detail" class="btn btn-orderinfo">
+                    <a href="{{order_post.id}}/show_details/" style="text-decoration:none;">detail</a>
+                </button>
+                <button type="submit" name="modify" class="btn btn-orderinfo">
+                    <a href="" style="text-decoration:none;">modify</a>
+                </button>
+                <button type="submit" name="delete" class="btn btn-orderinfo">
+                    <a href="" style="text-decoration:none;">delete</a>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</head>
+<body>
+
+</body>
+</html>
