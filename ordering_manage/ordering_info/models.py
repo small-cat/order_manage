@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 # Create your models here.
 
@@ -56,6 +57,11 @@ class OrderDetail(models.Model):
         (0, '否'),
         (1, '是')
     )
+
+    EXCEPTION_CHOICES = (
+        (0, '错误'),
+        (1, '正确')
+    )
     dateTime = models.DateField()
     itemCode = models.ForeignKey(ShopOrder, on_delete=models.CASCADE)
     keywords = models.CharField(max_length=64)      # max length of keywords is 60 bytes
@@ -76,7 +82,7 @@ class OrderDetail(models.Model):
     # 0 - not return, 1 - had returned, -1 - exception
     moneyReturnStatus = models.SmallIntegerField(choices=RETURN_MONEY_CHOICES)
     # description of exceptions. If one order occured an exception, finishedStatus and moneyReturnStatus should be -1
-    exception = models.TextField()
+    exception = models.SmallIntegerField(choices=EXCEPTION_CHOICES)
     remark = models.TextField()
     userTaobaoId = models.CharField(max_length=64, null=True)
 
@@ -87,3 +93,13 @@ class OrderDetail(models.Model):
     def get_item_name(self):
         return self.itemCode.itemName
     get_item_name.short_description = 'ItemName'
+
+
+class OrderInfoForm(forms.ModelForm):
+    class Meta:
+        model = OrderDetail
+        # itemCode is foreign key, in form it can not modify directly, so fields doesn't contain itemCode.
+        # but itemCode should be processed when modify order info
+        fields = ('dateTime', 'keywords', 'enterChannel', 'scanDuration', 'talk', 'shoppingCnt',
+                  'orderCnt', 'price', 'charges', 'memo', 'salary', 'finishStatus', 'moneyReturnStatus',
+                  'exception', 'remark', 'userTaobaoId')

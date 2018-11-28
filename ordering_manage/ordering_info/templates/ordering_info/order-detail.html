@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>order detail</title>
+    <title>订单详情</title>
 
     <div>
         <h2>店铺信息</h2>
@@ -18,7 +18,7 @@
         <!-- 商品信息 时间、商品名称、商品编码、商品链接、备注、要求 -->
         <h2>商品信息</h2>
         <ul>
-            <li>      时间: {{order_detail.itemCode.dateTime}}</li>
+            <li>      时间: {{order_detail.itemCode.dateTime | date:'Y-n-d'}}</li>
             <li>   商品名称: {{order_detail.itemCode.itemName}}</li>
             <li>   商品编码: {{order_detail.itemCode.itemCode}}</li>
             <li>   商品链接: {{order_detail.itemCode.itemLink}}</li>
@@ -27,30 +27,165 @@
         </ul>
     </div>
 
-    <div>
-        <!-- 订单详细信息 时间、关键字、入口、浏览时间、是否假聊、购买件数、单数、价格、佣金、留言、刷手费用、
+    <!-- 订单详细信息 时间、关键字、入口、浏览时间、是否假聊、购买件数、单数、价格、佣金、留言、刷手费用、
         是否完成、是否返款、异常、备注、淘宝用户名 -->
+<!--
+    <div>
         <h2>订单详细信息</h2>
+        <form action="" method="post">
         <ul>
-            <li>时间: {{order_detail.dateTime}}</li>
-            <li>关键字: {{order_detail.keywords}}</li>
-            <li>入口: {{order_detail.enterChannel}}</li>
-            <li>浏览时间: {{order_detail.scanDuration}}</li>
-            <li>是否假聊: {{order_detail.get_talk_display}}</li>
-            <li>购买件数: {{order_detail.shoppingCnt}}</li>
-            <li>单数: {{order_detail.orderCnt}}</li>
-            <li>价格: {{order_detail.price}}</li>
-            <li>佣金: {{order_detail.charges}}</li>
-            <li>留言: {{order_detail.memo}}</li>
-            <li>刷手费用: {{order_detail.salary}}</li>
-            <li>是否完成: {{order_detail.get_finishStatus_display}}</li>
-            <li>是否返款: {{order_detail.get_moneyReturnStatus_display}}</li>
-            <li>异常: {{order_detail.exception}}</li>
-            <li>备注: {{order_detail.remark}}</li>
-            <li>淘宝用户名: {{order_detail.userTaobaoId}}</li>
+            <li>时间: <input type="date" name="dateTime" value="{{order_detail.dateTime}}"></li>
+            <li>关键字: <input style="width:30%" type="text" name="keywords" value="{{order_detail.keywords}}"></li>
+            <li>入口: <input type="text" name="enterChannel" value="{{order_detail.enterChannel}}"></li>
+            <li>浏览时长: <input type="number" name="scanDuration" value="{{order_detail.scanDuration}}"> 分钟</li>
+            <li>是否假聊:
+                <select name="talk" value="{{order_detail.get_talk_display}}">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select></li>
+            <li>购买件数: <input type="number" name="shoppingCnt" value="{{order_detail.shoppingCnt}}"></li>
+            <li>单数: <input type="number" name="orderCnt" value="{{order_detail.orderCnt}}"></li>
+            <li>价格: <input type="number" name="price" value="{{order_detail.price}}"></li>
+            <li>佣金: <input type="number" name="charges" value="{{order_detail.charges}}"></li>
+            <li>留言: <textarea name="memo">{{order_detail.memo}}</textarea></li>
+            <li>刷手费用: <input type="number" name="salary" value="{{order_detail.salary}}"></li>
+            <li>是否完成:
+                <select name="finishStatus" value="{{order_detail.get_finishStatus_display}}">
+                    <option value="-1">异常</option>
+                    <option value="0">未完成</option>
+                    <option value="1">已完成</option>
+                </select></li>
+            <li>是否返款:
+                <select name="moneyReturnStatus"  value="{{order_detail.get_moneyReturnStatus_display}}">
+                    <option value="-1">异常</option>
+                    <option value="0">未返款</option>
+                    <option value="1">已返款</option>
+                </select></li>
+            <li>异常: <textarea name="exception" >{{order_detail.exception}}</textarea></li>
+            <li>备注: <textarea name="remark">{{order_detail.remark}}</textarea></li>
+            <li>淘宝用户名: <input type="text" name="userTaobaoId" value="{{order_detail.userTaobaoId}}"></li>
         </ul>
+            <input style="margin-right:100px;" type="submit">
+        </form>
     </div>
+-->
 
+    <!-- 订单详细信息 时间、关键字、入口、浏览时间、是否假聊、购买件数、单数、价格、佣金、留言、刷手费用、
+        是否完成、是否返款、异常、备注、淘宝用户名 -->
+    <div>
+        <h2>订单详细信息</h2>
+        <form action="{% url 'ordering_info:modify info' order_detail.id %}" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th><label for="id_dateTime">时间:</label></th>
+                <td><input style="padding-left:5px;" type="date" name="dateTime" required id="id_dateTime" value="{{order_detail.dateTime | date:'Y-n-d'}}"></td>
+            </tr>
+            <tr>
+                <th><label for="id_keywords">关键字:</label></th>
+                <td><input style="padding-left:5px;" type="text" name="keywords" required maxlength="64" id="id_keywords" value="{{order_detail.keywords}}"></td>
+            </tr>
+            <tr>
+                <th><label for="id_enterChannel">入口:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="text" name="enterChannel" required maxlength="24" id="id_enterChannel" value="{{order_detail.enterChannel}}">
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_scanDuration">浏览时间:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="scanDuration" required id="id_scanDuration" value="{{order_detail.scanDuration}}"> 分钟
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_talk">是否假聊:</label></th>
+                <td>
+                    <select name="talk" required id="id_talk">
+                        <option value="0" {% if order_detail.talk == 0 %} selected {% endif %}>否</option>
+                        <option value="1" {% if order_detail.talk %} selected {% endif %}>是</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_shoppingCnt">购买件数:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="shoppingCnt" required id="id_shoppingCnt" value="{{order_detail.shoppingCnt}}">
+                </td>
+            </tr>
+            <tr><th><label for="id_orderCnt">单数:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="orderCnt" required id="id_orderCnt" value="{{order_detail.orderCnt}}">
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_price">价格:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="price" step="any" required id="id_price" value="{{order_detail.price}}"> 元
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_charges">佣金:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="charges" step="any" required id="id_charges" value="{{order_detail.charges}}"> 元
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_memo">留言:</label></th>
+                <td>
+                    <textarea style="padding-left:3px;" name="memo" id="id_memo" required cols="40" rows="10" >{{order_detail.memo}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_salary">刷手费用:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="number" name="salary" step="any" required id="id_salary" value="{{order_detail.salary}}"> 元
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_finishStatus">是否完成:</label></th>
+                <td>
+                    <select name="finishStatus" required id="id_finishStatus" value="{{order_detail.finishStatus}}">
+                        <option value="-1" {% if order_detail.finishStatus == -1 %} selected {% endif %}>异常</option>
+                        <option value="0" {% if order_detail.finishStatus == 0 %} selected {% endif %}>未完成</option>
+                        <option value="1" {% if order_detail.finishStatus == 1 %} selected {% endif %}>已完成</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_moneyReturnStatus">是否返款:</label></th>
+                <td>
+                    <select name="moneyReturnStatus" required id="id_moneyReturnStatus">
+                        <option value="-1" {%if order_detail.moneyReturnStatus == -1 %} selected {% endif %}>异常</option>
+                        <option value="0" {%if order_detail.moneyReturnStatus == 0 %} selected {% endif %}>未返款</option>
+                        <option value="1" {%if order_detail.moneyReturnStatus == 1 %} selected {% endif %}>已返款</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_exception">订单是否出错:</label></th>
+                <td>
+                    <select name="exception" required id="id_exception">
+                        <option value="0" {%if order_detail.exception == 0 %} selected {% endif %}>错误</option>
+                        <option value="1" {%if order_detail.exception %} selected {% endif %}>正确</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_remark">备注:</label></th>
+                <td>
+                    <textarea style="padding-left:3px;"name="remark" id="id_remark" required cols="40" rows="10">{{order_detail.remark}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_userTaobaoId">淘宝用户名:</label></th>
+                <td>
+                    <input style="padding-left:5px;" type="text" name="userTaobaoId" required maxlength="64" id="id_userTaobaoId" value="{{order_detail.userTaobaoId}}">
+                </td>
+            </tr>
+        </table><br>
+        <input style="padding-left:20px;padding-right:20px;" type="submit">
+    </form>
+    </div>
 </head>
 <body>
 
