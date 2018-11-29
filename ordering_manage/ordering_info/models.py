@@ -38,6 +38,14 @@ class ShopOrder(models.Model):
     get_shop_name.short_description = 'ShopName'
 
 
+class UserInfo(models.Model):
+    userTaobaoId = models.CharField(max_length=64, null=True)
+    wxName = models.CharField(max_length=64, null=True)
+    recommendWxName = models.CharField(max_length=64, null=True)
+    wxGroupName = models.CharField(max_length=64, null=True)
+    remark = models.TextField(null=True)
+
+
 class OrderDetail(models.Model):
     # order details
     # 已完成、未完成、未返款、已返款
@@ -84,7 +92,7 @@ class OrderDetail(models.Model):
     # description of exceptions. If one order occured an exception, finishedStatus and moneyReturnStatus should be -1
     exception = models.SmallIntegerField(choices=EXCEPTION_CHOICES)
     remark = models.TextField()
-    userTaobaoId = models.CharField(max_length=64, null=True)
+    userTaobaoId = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
 
     def get_shop_name(self):
         return self.itemCode.shopId.shopName

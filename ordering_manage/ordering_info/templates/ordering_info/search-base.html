@@ -1,0 +1,31 @@
+<header id="site-header">
+    <div id="header-search-box">
+        <form role="search" method="get" id="searchform" action="{% url 'ordering_info:search orders' %}">
+            {% csrf_token %}
+            <th><label id="id_datetime">时间:</label></th>
+            <input type="date" name="datetime">
+
+            <th><label id="id_keywords" style="padding-left:20px">关键字:</label></th>
+            <input type="text" name="keywords">
+
+            <th><label for="id_finishStatus" style="padding-left:20px">是否完成:</label></th>
+            <select name="finishStatus" required id="id_finishStatus" value="{{order_detail.finishStatus}}">
+                <option value="-1">异常</option>
+                <option value="0">未完成</option>
+                <option value="1" selected>已完成</option>
+            </select>
+
+            <th><label for="id_moneyReturnStatus" style="padding-left:20px">是否返款:</label></th>
+            <select name="moneyReturnStatus" required id="id_moneyReturnStatus">
+                <option value="-1">异常</option>
+                <option value="0">未返款</option>
+                <option value="1" selected>已返款</option>
+            </select>
+
+            <th><label for="id_userTaobaoId" style="padding-left:20px">淘宝用户名:</label></th>
+            <input type="text" name="userTaobaoId">
+
+            <button type="submit">搜索</button>
+        </form>
+    </div>
+</header>

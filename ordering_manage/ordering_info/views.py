@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -7,11 +8,12 @@ from ordering_info.models import OrderDetail, OrderInfoForm
 
 
 def list_orderings(request):
-    order_details = OrderDetail.objects.all()
-    # shop_infos = ShopInfo.objects.all()
-    # shop_orders = ShopOrder.objects.all()
+    order_details_lists = OrderDetail.objects.all()
+    paginator = Paginator(order_details_lists, 20)
+    page = request.GET.get('page')
+    order_details = paginator.get_page(page)
 
-    return render(request, 'ordering_info/orderinfo.html', {'order_posts': order_details}, RequestContext(request))
+    return render(request, 'ordering_info/index.html', {'order_posts': order_details}, RequestContext(request))
 
 
 def show_detail(request, order_id):
@@ -56,3 +58,32 @@ def modify_order(request, order_id):
 def delete_order(request, order_id):
     OrderDetail.objects.filter(id=order_id).delete()
     return HttpResponseRedirect('/ordering_info/')
+
+
+def search_orders(request):
+    datetime = request.GET.get('datetime')
+    keywords = request.GET.get('keywords')
+    finish_status = request.GET.get('finishStatus')
+    money_return_status = request.GET.get('moneyReturnStatus')
+    user_taobao_id = request.GET.get('userTaobaoId')
+
+    print(datetime, keywords, finish_status, money_return_status, user_taobao_id)
+
+    # filter
+    results = OrderDetail.objects.filter(finishStatus=finish_status).filter(moneyReturnStatus=money_return_status)
+    if datetime:
+        results = results.filter(dateTime=datetime)
+    if keywords:
+        results = results.filter(keywords__contains=keywords)
+    if user_taobao_id:
+        results = results.filter(userTaobaoId__contains=user_taobao_id)
+
+    paginator = Paginator(results, 20)
+    page = request.GET.get('page')
+    order_posts = paginator.get_page(page)
+
+    return render(request, 'ordering_info/index.html', {'order_posts': order_posts}, RequestContext(request))
+
+
+def show_userinfo(request, user_id):
+    print('userinfo')
