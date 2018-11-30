@@ -3,7 +3,7 @@
         <form role="search" method="get" id="searchform" action="{% url 'ordering_info:search orders' %}">
             {% csrf_token %}
             <th><label id="id_datetime">时间:</label></th>
-            <input type="date" name="datetime">
+            <input type="date" name="datetime" value="">
 
             <th><label id="id_keywords" style="padding-left:20px">关键字:</label></th>
             <input type="text" name="keywords">

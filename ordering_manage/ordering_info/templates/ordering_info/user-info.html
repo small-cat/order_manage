@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+</head>
+
+<header id="site-header" {% if err_msg %} hidden {% endif %}>
+    <div id="header-search-box">
+        <form role="search" method="get" id="search-user-form" action="{% url 'ordering_info:search userinfo' %}">
+            {% csrf_token %}
+            <th><label id="id_userTaobaoId">淘宝用户名:</label></th>
+            <input type="text" name="userTaobaoId">
+
+            <th><label id="id_wx_name" style="padding-left:20px">微信名:</label></th>
+            <input type="text" name="wxName">
+
+            <th><label id="id_recommendWxName" style="padding-left:20px">推荐人微信名:</label></th>
+            <input type="text" name="recommendWxName">
+
+            <th><label id="id_wxGroupName" style="padding-left:20px">所在微信群名称:</label></th>
+            <input type="text" name="wxGroupName">
+
+            <button type="submit">搜索</button>
+        </form>
+    </div>
+</header>
+
+<br>
+
+{% if err_msg %}
+<!-- user does not exist, add a new user -->
+<font style="font-size:15px;color:red;font-weight:bold;">{{err_msg}}</font>
+<form method="post" id="add-new-user" action="{% url 'ordering_info:add user' %}" style="margin-top:5px;">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><th align="right"><label id="id_newUserTaobaoId">淘宝用户名:</label></th></td>
+            <td><input type="text" name="newUserTaobaoId" placeholder="不能为空"></td>
+        </tr>
+
+        <tr>
+            <td><th align="right"><label id="id_new_wx_name" style="padding-left:20px">微信名:</label></th></td>
+            <td><input type="text" name="newWxName"></td>
+        </tr>
+
+        <tr>
+            <td><th align="right"><label id="id_new_recommendWxName" style="padding-left:20px">推荐人微信名:</label></th></td>
+            <td><input type="text" name="newRecommendWxName"></td>
+        </tr>
+
+        <tr>
+            <td><th align="right"><label id="id_new_wxGroupName" style="padding-left:20px">所在微信群名称:</label></th></td>
+            <td><input type="text" name="newWxGroupName"></td>
+        </tr>
+
+        <tr>
+            <td><th align="right"><label id="id_new_remark" style="padding-left:20px;">备注</label></th></td>
+            <td><textarea name="newRemark" cols="25"></textarea></td>
+        </tr>
+
+        <tr>
+            <td><th><label></label></th></td>
+            <td align="right"><button type="submit">新增</button></td>
+        </tr>
+    </table>
+
+</form>
+{% endif %}
+
+<table border="1" cellspacing="0" style="border:none;line-height:29px;height:29px;border-radius:1px;width:100%;margin-top:10px;">
+    <tr>
+        <td align="center">序号</td>
+        <td align="center">淘宝用户名</td>
+        <td align="center">微信名</td>
+        <td align="center">推荐人微信名</td>
+        <td align="center">所在微信群名称</td>
+    </tr>
+    {% for user in user_info %}
+    <tr>
+        <td align="center">{{ forloop.counter }}</td>
+        <td align="center">{{user.userTaobaoId}}</td>
+        <td align="center">{{user.wxName}}</td>
+        <td align="center">{{user.recommendWxName}}</td>
+        <td align="center">{{user.wxGroupName}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div style="margin-top:5px;" class="pagination">
+    <span class="step-links">
+        {% if order_posts.has_previous %}
+        <a style="text-decoration:none" href="?page=1">&laquo; first</a>
+        <a style="text-decoration:none" href="?page={{ user_info.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ user_info.number }} of {{ user_info.paginator.num_pages }}
+        </span>
+
+        {% if order_posts.has_next %}
+        <a href="?page={{ user_info.next_page_number }}">next</a>
+        <a href="?page={{ user_info.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+<body>
+
+</body>
+</html>

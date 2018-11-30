@@ -9,6 +9,8 @@ urlpatterns = [
     path('<int:order_id>/show_details/', show_detail, name='show detail'),
     path('<int:order_id>/modify-info/', modify_order, name='modify info'),
     path('<int:order_id>/delete/', delete_order, name="delete order"),
-    path('search/', search_orders, name='search orders'),
-    path('<int:user_id>/userinfo/', show_userinfo, name='show userinfo'),
+    path('search_orders/', search_orders, name='search orders'),
+    path('<int:user_id>/user-info/', show_userinfo, name='show userinfo'),
+    path('search_userinfo/', search_userinfo, name='search userinfo'),
+    path('adduser/', add_user, name='add user'),
 ]

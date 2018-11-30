@@ -31,7 +31,7 @@
             <td align="center">{{order_post.orderCnt}}</td>
             <td align="center">{{order_post.price }} 元</td>
             <td align="center">
-                <a style="text-decoration:none" href="">{{order_post.userTaobaoId.userTaobaoId}}</a>
+                <a style="text-decoration:none" href="{% url 'ordering_info:show userinfo' order_post.userTaobaoId.id %}">{{order_post.userTaobaoId.userTaobaoId}}</a>
             </td>
             <td align="center">{{order_post.get_finishStatus_display}}</td>
             <td align="center">{{order_post.get_moneyReturnStatus_display}}</td>
